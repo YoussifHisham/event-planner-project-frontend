@@ -1,7 +1,24 @@
-import { defineConfig } from 'vite'
-import react from '@vitejs/plugin-react'
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
 
-// https://vite.dev/config/
 export default defineConfig({
   plugins: [react()],
-})
+  
+  // --- UPDATED PROXY CONFIGURATION ---
+  server: {
+    proxy: {
+      // 1. Proxy any requests starting with /auth to the backend
+      '/auth': {
+        target: 'http://localhost:5000', 
+        changeOrigin: true,
+      },
+      // 2. Proxy any requests starting with /events to the backend
+      '/events': {
+        target: 'http://localhost:5000', 
+        changeOrigin: true,
+      },
+      // Add other top-level route prefixes (like /users, /admin, etc.) here if needed.
+    },
+  },
+  // ---------------------------------
+});
