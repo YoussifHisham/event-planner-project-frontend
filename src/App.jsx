@@ -1,66 +1,37 @@
-import { useState } from "react";
-import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
-import AuthPage from "./pages/AuthPage";
-import WelcomePage from "./pages/WelcomePage";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
+import AuthPage from "./pages/AuthPage"
+import WelcomePage from "./pages/WelcomePage"
+import SearchPage from "./pages/SearchPage"
+import { AuthProvider, useAuth } from "./contexts/AuthContext"
 
-function App() {
-  const [user, setUser] = useState(
-    JSON.parse(localStorage.getItem("user")) || null
-  );
-  const [token, setToken] = useState(localStorage.getItem("token") || null);
+function MainApp() {
+  const { user, loading } = useAuth()
 
-  const handleLogin = (userData, userToken) => {
-    setUser(userData);
-    setToken(userToken);
-    localStorage.setItem("user", JSON.stringify(userData));
-    localStorage.setItem("token", userToken);
-  };
-
-  const handleLogout = () => {
-    setUser(null);
-    setToken(null);
-    localStorage.removeItem("user");
-    localStorage.removeItem("token");
-  };
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center h-screen text-2xl">
+        Loading...
+      </div>
+    )
+  }
 
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            user ? (
-              <Navigate to="/welcome" replace />
-            ) : (
-              <Navigate to="/auth" replace />
-            )
-          }
-        />
-        <Route
-          path="/auth"
-          element={
-            user ? (
-              <Navigate to="/welcome" replace />
-            ) : (
-              <AuthPage onLogin={handleLogin} />
-            )
-          }
-        />
-        <Route
-          path="/welcome"
-          element={
-            user ? (
-              // --- THIS IS THE ONLY LINE THAT CHANGED ---
-              // We now pass the 'token' to WelcomePage, which fixes the error.
-              <WelcomePage user={user} token={token} onLogout={handleLogout} />
-            ) : (
-              <Navigate to="/auth" replace />
-            )
-          }
-        />
-      </Routes>
-    </BrowserRouter>
-  );
+    <Routes>
+      <Route path="/" element={<Navigate to="/welcome" replace />} />
+      <Route path="/auth" element={user ? <Navigate to="/welcome" replace /> : <AuthPage />} />
+      <Route path="/welcome" element={user ? <WelcomePage /> : <Navigate to="/auth" replace />} />
+      <Route path="/search" element={user ? <SearchPage /> : <Navigate to="/auth" replace />} />
+      <Route path="*" element={<Navigate to="/welcome" replace />} />
+    </Routes>
+  )
 }
 
-export default App;
+export default function App() {
+  return (
+    <BrowserRouter>
+      <AuthProvider>
+        <MainApp />
+      </AuthProvider>
+    </BrowserRouter>
+  )
+}
