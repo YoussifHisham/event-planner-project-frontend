@@ -48,9 +48,23 @@ export default function CreateEventModal({ open, onOpenChange, onEventCreated })
           <input name="location" type="text" placeholder="Location" value={formData.location} onChange={handleChange} required className="w-full px-4 py-2 border rounded-lg" />
           <textarea name="description" placeholder="Description (optional)" value={formData.description} onChange={handleChange} rows={3} className="w-full px-4 py-2 border rounded-lg resize-none" />
           <div className="flex gap-3 pt-4">
-            <Button type="submit" loading={loading} className="flex-1">Create Event</Button>
-            <Button type="button" variant="outline" onClick={() => onOpenChange(false)} disabled={loading}>Cancel</Button>
-          </div>
+          <Button
+            type="submit"
+            loading={loading}
+            className="flex-1 bg-green-600 hover:bg-green-700 text-white border-transparent"
+          >
+            Create Event
+          </Button>
+
+          <Button
+            type="button"
+            onClick={() => onOpenChange(false)}
+            disabled={loading}
+            className="flex-1 bg-red-600 hover:bg-red-700 text-white border-transparent"
+          >
+            Cancel
+          </Button>
+        </div>
         </form>
       </div>
     </div>

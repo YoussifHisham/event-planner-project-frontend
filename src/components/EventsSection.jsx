@@ -96,7 +96,7 @@ export default function EventsSection() {
               onClick={() => handleTabChange("organized")}
               className={`pb-4 px-2 text-lg font-bold border-b-4 transition-all duration-300 ${
                 activeTab === "organized"
-                  ? "border-purple-600 text-purple-600"
+                  ? "border-green-600 text-green-600"
                   : "border-transparent text-gray-500 hover:text-gray-700"
               }`}
             >
@@ -141,7 +141,7 @@ export default function EventsSection() {
                 <h3 className="text-2xl font-bold text-gray-900">{event.title}</h3>
                 <span
                   className={`px-4 py-2 rounded-full text-sm font-bold ${
-                    event.role === "organizer" ? "bg-purple-100 text-purple-700" : "bg-blue-100 text-blue-700"
+                    event.role === "organizer" ? "bg-green-100 text-green-700" : "bg-blue-100 text-blue-700"
                   }`}
                 >
                   {event.role === "organizer" ? "Organizer" : "Attendee"}
@@ -160,14 +160,26 @@ export default function EventsSection() {
               )}
 
               {event.role === "organizer" && (
-                <div className="flex flex-wrap gap-3 mt-8">
-                  <Button size="sm" variant="outline" onClick={() => inviteUser(event.event_id)}>
+               <div className="flex flex-wrap gap-3 mt-8">
+                  <Button 
+                    size="sm" 
+                    onClick={() => inviteUser(event.event_id)}
+                    className="bg-yellow-500 hover:bg-yellow-600 text-white border-transparent"
+                  >
                     Invite
                   </Button>
-                  <Button size="sm" onClick={() => showAttendees(event.event_id)}>
+                  <Button 
+                    size="sm" 
+                    onClick={() => showAttendees(event.event_id)}
+                    className="bg-blue-600 hover:bg-blue-700 text-white border-transparent"
+                  >
                     View Attendees
                   </Button>
-                  <Button size="sm" variant="destructive" onClick={() => deleteEvent(event.event_id)}>
+                  <Button 
+                    size="sm" 
+                    onClick={() => deleteEvent(event.event_id)}
+                    className="bg-red-600 hover:bg-red-700 text-white border-transparent"
+                  >
                     Delete
                   </Button>
                 </div>

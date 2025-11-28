@@ -9,13 +9,15 @@ export default function AuthPage() {
   const { login, register } = useAuth();
 
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-12 bg-gradient-to-br from-blue-500 via-purple-500 to-pink-500">
+    <div className="flex flex-col items-center justify-center min-h-screen px-4 py-12 bg-gray-50">
       <Header />
-      {view === "login" ? (
-        <LoginForm onShowSignup={() => setView("signup")} login={login} />
-      ) : (
-        <SignupForm onShowLogin={() => setView("login")} register={register} />
-      )}
+      <div className="w-full max-w-xl mt-10">
+        {view === "login" ? (
+          <LoginForm onShowSignup={() => setView("signup")} login={login} />
+        ) : (
+          <SignupForm onShowLogin={() => setView("login")} register={register} />
+        )}
+      </div>
     </div>
   );
 }
@@ -31,31 +33,46 @@ function LoginForm({ onShowSignup, login }) {
     try {
       await login(email, password);
     } catch {
-      toast.error("Login failed – wrong email or password");
+      toast.error("Login failed — wrong email or password");
     } finally {
       setLoading(false);
     }
   };
 
   return (
-    <div className="w-full max-w-md p-10 bg-white rounded-2xl shadow-2xl">
-      <h2 className="text-4xl font-bold text-center mb-8 text-gray-800">Welcome Back!</h2>
-      
+    <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-gray-200">
+      <h2 className="text-3xl font-bold text-center mb-6 text-gray-900">
+        Welcome Back
+      </h2>
+
       <form onSubmit={submit} className="space-y-6">
-        <input type="email" placeholder="Email" required value={email} onChange={(e) => setEmail(e.target.value)}
-          className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:ring-4 focus:ring-blue-300 focus:border-transparent text-lg" />
-        
-        <input type="password" placeholder="Password" required value={password} onChange={(e) => setPassword(e.target.value)}
-          className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:ring-4 focus:ring-blue-300 focus:border-transparent text-lg" />
-        
-        <Button loading={loading} className="w-full text-xl py-5 font-bold">
+        <input
+          type="email"
+          placeholder="Email"
+          required
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-4 focus:ring-blue-200 focus:border-blue-400 outline-none"
+        />
+        <input
+          type="password"
+          placeholder="Password"
+          required
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+          className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-4 focus:ring-blue-200 focus:border-blue-400 outline-none"
+        />
+        <Button loading={loading} className="w-full py-3 text-lg font-semibold">
           Log In
         </Button>
       </form>
 
-      <p className="text-center mt-8 text-gray-600">
+      <p className="text-center mt-6 text-gray-600">
         Don't have an account?{" "}
-        <button onClick={onShowSignup} className="font-bold text-blue-600 hover:underline">
+        <button
+          onClick={onShowSignup}
+          className="font-bold text-blue-600 hover:underline"
+        >
           Sign Up
         </button>
       </p>
@@ -74,7 +91,11 @@ function SignupForm({ onShowLogin, register }) {
     setLoading(true);
     try {
       await register(email, password, role);
-      toast.success(`Welcome! You're now registered as ${role === "organizer" ? "an Organizer" : "an Attendee"}`);
+      toast.success(
+        `Welcome! You're now registered as ${
+          role === "organizer" ? "an Organizer" : "an Attendee"
+        }`
+      );
     } catch {
       toast.error("Email already taken or invalid");
     } finally {
@@ -83,47 +104,101 @@ function SignupForm({ onShowLogin, register }) {
   };
 
   return (
-    <div className="w-full max-w-2xl p-10 bg-white rounded-2xl shadow-2xl">
-      <h2 className="text-4xl font-bold text-center mb-4 text-gray-800">Join Evently</h2>
-      <p className="text-center text-gray-600 mb-10">Choose how you want to use the app</p>
+    <div className="bg-white p-8 md:p-10 rounded-2xl shadow-lg border border-gray-200">
+      <h2 className="text-3xl font-bold text-center text-gray-900">
+        Create an Account
+      </h2>
+      <p className="text-center text-gray-600 mb-8">
+        Choose your role & start using Evently
+      </p>
 
       <form onSubmit={submit} className="space-y-8">
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Attendee Card */}
-          <label className={`relative cursor-pointer rounded-2xl border-4 p-8 transition-all ${role === "attendee" ? "border-blue-500 shadow-2xl scale-105" : "border-gray-200 hover:border-gray-400"}`}>
-            <input type="radio" name="role" value="attendee" checked={role === "attendee"} onChange={(e) => setRole(e.target.value)} className="sr-only" />
+        <div className="grid md:grid-cols-2 gap-6">
+          <label
+            className={`cursor-pointer rounded-2xl p-6 border transition-all ${
+              role === "attendee"
+                ? "border-blue-500 shadow-lg bg-blue-50"
+                : "border-gray-300 hover:border-gray-400"
+            }`}
+          >
+            <input
+              type="radio"
+              name="role"
+              value="attendee"
+              checked={role === "attendee"}
+              onChange={(e) => setRole(e.target.value)}
+              className="sr-only"
+            />
             <div className="text-center">
-              <h3 className="text-2xl font-bold mb-2">I'm an Attendee</h3>
-              <p className="text-gray-600">Join events and have fun!</p>
+              <h3 className="text-xl font-semibold text-gray-900">
+                I'm an Attendee
+              </h3>
+              <p className="text-gray-600 text-sm">
+                Join and participate in events
+              </p>
             </div>
           </label>
 
-          {/* Organizer Card */}
-          <label className={`relative cursor-pointer rounded-2xl border-4 p-8 transition-all ${role === "organizer" ? "border-purple-500 shadow-2xl scale-105" : "border-gray-200 hover:border-gray-400"}`}>
-            <input type="radio" name="role" value="organizer" checked={role === "organizer"} onChange={(e) => setRole(e.target.value)} className="sr-only" />
+          <label
+            className={`cursor-pointer rounded-2xl p-6 border transition-all ${
+              role === "organizer"
+                ? "border-cyan-500 shadow-lg bg-cyan-50"
+                : "border-gray-300 hover:border-gray-400"
+            }`}
+          >
+            <input
+              type="radio"
+              name="role"
+              value="organizer"
+              checked={role === "organizer"}
+              onChange={(e) => setRole(e.target.value)}
+              className="sr-only"
+            />
             <div className="text-center">
-              <h3 className="text-2xl font-bold mb-2">I'm an Organizer</h3>
-              <p className="text-gray-600">Create events, invite people, manage everything</p>
+              <h3 className="text-xl font-semibold text-gray-900">
+                I'm an Organizer
+              </h3>
+              <p className="text-gray-600 text-sm">
+                Create and manage events
+              </p>
             </div>
           </label>
         </div>
 
-        <div className="space-y-6">
-          <input type="email" placeholder="Your Email" required value={email} onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:ring-4 focus:ring-purple-300 focus:border-transparent text-lg" />
-          
-          <input type="password" placeholder="Choose a Password" required minLength={6} value={password} onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-5 py-4 rounded-xl border border-gray-300 focus:ring-4 focus:ring-purple-300 focus:border-transparent text-lg" />
+        <div className="space-y-5">
+          <input
+            type="email"
+            placeholder="Your Email"
+            required
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-4 focus:ring-blue-200 focus:border-blue-400 outline-none"
+          />
+          <input
+            type="password"
+            placeholder="Choose a Password"
+            required
+            minLength={6}
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+            className="w-full px-4 py-3 rounded-xl border border-gray-300 focus:ring-4 focus:ring-blue-200 focus:border-blue-400 outline-none"
+          />
         </div>
 
-        <Button loading={loading} className="w-full text-xl py-5 font-bold bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700">
+        <Button
+          loading={loading}
+          className="w-full py-3 text-lg font-semibold bg-blue-600 hover:bg-blue-700"
+        >
           Create Account as {role === "organizer" ? "Organizer" : "Attendee"}
         </Button>
       </form>
 
-      <p className="text-center mt-8 text-gray-600">
+      <p className="text-center mt-6 text-gray-600">
         Already have an account?{" "}
-        <button onClick={onShowLogin} className="font-bold text-purple-600 hover:underline">
+        <button
+          onClick={onShowLogin}
+          className="font-bold text-blue-600 hover:underline"
+        >
           Log In
         </button>
       </p>

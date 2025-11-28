@@ -12,19 +12,18 @@ export default function OrganizerDashboard() {
         <h2 class="text-3xl font-bold text-gray-900">My Events</h2>
 
         <button 
-            class="px-6 py-2 font-medium text-white rounded-md shadow-sm
-                    bg-gradient-to-r from-purple-600 to-blue-600
-                    hover:from-purple-700 hover:to-blue-700 
-                    focus:outline-none focus:ring-2 focus:ring-offset-2 
-                    focus:ring-purple-500 transition-all"
-                >
-                 + Create New Event
-        </button>
+            onClick={() => setShowCreateModal(true)} 
+            size="lg"
+            className="px-6 py-2 font-medium text-white rounded-md shadow-sm
+                        bg-green-600 hover:bg-green-700 
+                        focus:outline-none focus:ring-2 focus:ring-offset-2 
+                        focus:ring-green-500 transition-all"
+            >
+            + Create New Event
+            </button>
       </div>
 
       <EventsSection />
-
-      {/* Organizer-Specific Modal */}
       <CreateEventModal 
         open={showCreateModal} 
         onOpenChange={setShowCreateModal}
