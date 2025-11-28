@@ -118,7 +118,7 @@ export default function EventsSection() {
 
       {events.length === 0 ? (
         <div className="text-center py-20">
-          <div className="text-8xl mb-6">{activeTab === "organized" ? "Briefcase" : "Party"}</div>
+          <div className="text-8xl mb-6">{activeTab === "organized" ? "": ""}</div>
           <p className="text-2xl text-gray-600">
             {activeTab === "organized"
               ? "You haven't created any events yet"
@@ -179,12 +179,6 @@ export default function EventsSection() {
 
       {isOrganizer && (
         <>
-          <Button
-            onClick={() => setModalOpen(true)}
-            className="fixed bottom-8 right-8 rounded-full w-16 h-16 text-4xl shadow-2xl hover:scale-110 transition-all z-50 bg-gradient-to-r from-purple-600 to-blue-600 text-white font-bold"
-          >
-            +
-          </Button>
           <CreateEventModal
             open={modalOpen}
             onOpenChange={setModalOpen}

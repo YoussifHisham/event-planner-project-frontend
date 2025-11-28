@@ -93,9 +93,8 @@ function SignupForm({ onShowLogin, register }) {
           <label className={`relative cursor-pointer rounded-2xl border-4 p-8 transition-all ${role === "attendee" ? "border-blue-500 shadow-2xl scale-105" : "border-gray-200 hover:border-gray-400"}`}>
             <input type="radio" name="role" value="attendee" checked={role === "attendee"} onChange={(e) => setRole(e.target.value)} className="sr-only" />
             <div className="text-center">
-              <div className="text-6xl mb-4">Party</div>
               <h3 className="text-2xl font-bold mb-2">I'm an Attendee</h3>
-              <p className="text-gray-600">Join events, RSVP, and have fun!</p>
+              <p className="text-gray-600">Join events and have fun!</p>
             </div>
           </label>
 
@@ -103,7 +102,6 @@ function SignupForm({ onShowLogin, register }) {
           <label className={`relative cursor-pointer rounded-2xl border-4 p-8 transition-all ${role === "organizer" ? "border-purple-500 shadow-2xl scale-105" : "border-gray-200 hover:border-gray-400"}`}>
             <input type="radio" name="role" value="organizer" checked={role === "organizer"} onChange={(e) => setRole(e.target.value)} className="sr-only" />
             <div className="text-center">
-              <div className="text-6xl mb-4">Calendar</div>
               <h3 className="text-2xl font-bold mb-2">I'm an Organizer</h3>
               <p className="text-gray-600">Create events, invite people, manage everything</p>
             </div>
