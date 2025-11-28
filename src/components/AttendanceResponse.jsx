@@ -15,7 +15,7 @@ export default function AttendanceResponse({ eventId, currentStatus, onUpdate })
   const updateStatus = async (newStatus) => {
     setLoading(true);
     try {
-      await api.patch(`/events/${eventId}/response`, { status: newStatus });
+      await api.post(`/events/${eventId}/respond`, { status: newStatus });
       setStatus(newStatus);
       toast.success(`Status updated to ${newStatus}!`);
       onUpdate?.();
