@@ -13,8 +13,14 @@ RUN npm install
 # Copy the rest of the code
 COPY . .
 
-# Expose the port (Vite default is 5173)
-EXPOSE 5173
+# Build the production app
+RUN npm run build
 
-# Start the app with host access enabled
-CMD ["npm", "run", "dev", "--", "--host"]
+# Install a simple static file server
+RUN npm install -g serve
+
+# Expose port 8080 (OpenShift standard)
+EXPOSE 8080
+
+# Serve the built files on port 8080
+CMD ["serve", "-s", "dist", "-l", "8080"]
