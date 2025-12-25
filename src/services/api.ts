@@ -1,10 +1,13 @@
 import axios from 'axios';
 
-// The baseURL is left empty, making this instance rely entirely on the 
-// Vite proxy configuration (in vite.config.js) to route requests starting 
-// with '/api' to the backend (http://localhost:5000).
+// Use environment variable for API URL
+// Falls back to localhost if VITE_API_URL is not set
+const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:5000';
+
+console.log('🔗 API URL:', API_URL); // Helpful for debugging
+
 const api = axios.create({
-  baseURL: 'http://localhost:5000',
+  baseURL: API_URL,
   headers: {
     'Content-Type': 'application/json',
   },
